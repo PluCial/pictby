@@ -1,0 +1,23 @@
+<!-- Indices written at Thu, 27 Aug 2015 09:10:05 JST -->
+
+<datastore-indexes>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="User" ancestor="false" source="auto">
+        <property name="invalid" direction="asc"/>
+        <property name="createDate" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 2 times in query history -->
+    <datastore-index kind="ItemTag" ancestor="false" source="auto">
+        <property name="userRef" direction="asc"/>
+        <property name="itemCount" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Item" ancestor="false" source="auto">
+        <property name="userRef" direction="asc"/>
+        <property name="sortOrder" direction="asc"/>
+    </datastore-index>
+
+</datastore-indexes>
