@@ -1,5 +1,7 @@
 package com.pictby.service;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,7 +48,7 @@ public class UserService {
         User user = getByEmail(email);
         
         // メールもしくはパスワードが違っている場合
-        if(user == null || !user.getPassword().equals(password)) {
+        if(user == null || !user.getPassword().equals(getCipherPassword(user.getUserId(), password))) {
             return null;
         }
         
@@ -65,6 +67,7 @@ public class UserService {
      * @return
      * @throws NullPointerException
      * @throws TooManyException
+     * @throws NoSuchAlgorithmException 
      */
     public static User add(
             String userId,
@@ -72,7 +75,7 @@ public class UserService {
             String password, 
             String name, 
             String catchCopy, 
-            String detail) throws NullPointerException, TooManyException {
+            String detail) throws NullPointerException, TooManyException, NoSuchAlgorithmException {
         
         if(StringUtil.isEmpty(userId)
                 || StringUtil.isEmpty(email)
@@ -94,7 +97,7 @@ public class UserService {
         User user = new User();
         user.setUserId(userId);
         user.setEmail(new Email(email));
-        user.setPassword(password);
+        user.setPassword(getCipherPassword(userId, password));
         
         Map<String,UserTextRes> textUserResourcesMap = new HashMap<String,UserTextRes>();
         
@@ -222,6 +225,25 @@ public class UserService {
      */
     private static Key createKey() {
         return Datastore.allocateId(UserMeta.get());
+    }
+    
+    /**
+     * パスワード暗号化
+     * @return
+     * @throws NoSuchAlgorithmException 
+     */
+    private static String getCipherPassword(String userId, String password) throws NoSuchAlgorithmException {
+        StringBuilder buff = new StringBuilder();
+        if (password != null && !password.isEmpty()) {
+            MessageDigest md = MessageDigest.getInstance("SHA-1");
+            md.update(userId.getBytes());
+            md.update(password.getBytes());
+            byte[] digest = md.digest();
+            for (byte d : digest) {
+                buff.append((int)d&0xFF);
+            }
+        }
+        return buff.toString();
     }
 
 }
