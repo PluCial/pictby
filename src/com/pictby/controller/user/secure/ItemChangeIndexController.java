@@ -6,6 +6,7 @@ import org.slim3.util.StringUtil;
 import com.pictby.model.Item;
 import com.pictby.model.User;
 import com.pictby.service.ItemService;
+import com.pictby.service.MemcacheService;
 
 public class ItemChangeIndexController extends BaseController {
 
@@ -55,6 +56,9 @@ public class ItemChangeIndexController extends BaseController {
         
         // 保存処理
         ItemService.changeSortOrder(targetItem, order);
+        
+        // キャッシュクリア
+        MemcacheService.deleteItem(itemId);
         
         
         requestScope("status", "OK");

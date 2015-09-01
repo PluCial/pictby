@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.slim3.datastore.Datastore;
-import org.slim3.memcache.Memcache;
 import org.slim3.util.StringUtil;
 
 import com.google.appengine.api.datastore.Email;
@@ -13,6 +12,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 import com.pictby.dao.UserDao;
 import com.pictby.enums.UserTextRole;
+import com.pictby.exception.ObjectNotFoundException;
 import com.pictby.exception.TooManyException;
 import com.pictby.meta.UserMeta;
 import com.pictby.model.ItemTag;
@@ -180,18 +180,23 @@ public class UserService {
      * @return
      */
     public static User getUser(String userId) {
+        User model = null;
         
-        User model = Memcache.get(MemcacheKeyService.getUserKey(userId));
-        if(model != null) return model;
+        try {
+            model = MemcacheService.getUser(userId);
 
-        model = dao.getByUserId(userId);
-        if(model == null) return null;
+        }catch(ObjectNotFoundException e) {
+            // DBから取得
+            model = dao.getByUserId(userId);
+            if(model == null) return null;
+            
+            // 付属情報の追加
+            setResources(model);
+            
+            // キャッシュを追加
+            MemcacheService.addUser(model);
+        }
         
-        // 付属情報の追加
-        setResources(model);
-        
-        //TODO: キャッシュする
-
         return model;
     }
     
@@ -211,20 +216,11 @@ public class UserService {
     }
     
     /**
-     * キャッシュクリア
-     * @param userId
-     * @param lang
-     */
-    public static void clearMemcache(String userId) {
-        Memcache.delete(MemcacheKeyService.getUserKey(userId));
-    }
-    
-    /**
      * キーの作成
      * @param keyString
      * @return
      */
-    public static Key createKey() {
+    private static Key createKey() {
         return Datastore.allocateId(UserMeta.get());
     }
 

@@ -8,7 +8,6 @@ import java.util.UUID;
 import org.slim3.controller.upload.FileItem;
 import org.slim3.datastore.Datastore;
 import org.slim3.datastore.S3QueryResultList;
-import org.slim3.memcache.Memcache;
 import org.slim3.util.StringUtil;
 
 import com.google.appengine.api.datastore.Key;
@@ -16,6 +15,7 @@ import com.google.appengine.api.datastore.Transaction;
 import com.pictby.App;
 import com.pictby.dao.ItemDao;
 import com.pictby.enums.ItemTextRole;
+import com.pictby.exception.ObjectNotFoundException;
 import com.pictby.exception.UnsuitableException;
 import com.pictby.meta.ItemMeta;
 import com.pictby.model.Item;
@@ -217,21 +217,6 @@ public class ItemService {
     }
     
     /**
-     * アイテムの付属情報の設定
-     * @param item
-     * @param lang
-     */
-    public static void setItemInfo(Item item) {
-        
-        item.setTextResources(TextItemResourcesService.getResourcesMap(item));
-        
-        item.setGcsResources(GcsItemResourcesService.getResourcesMap(item));
-        
-        List<String> tagsList = SearchApiService.getItemTags(item);
-        item.setTagsList(tagsList == null ? new ArrayList<String>() : tagsList);
-    }
-    
-    /**
      * アイテムの取得
      * @param spot
      * @param key
@@ -239,14 +224,25 @@ public class ItemService {
      * @return
      * @throws UnsuitableException 
      */
-    public static Item getByKey(String key) throws NullPointerException {
-        
-        if(StringUtil.isEmpty(key)) throw new NullPointerException();
-        
-        Item model = dao.getOrNull(createKey(key));
-        if(model == null) return null;
+    public static Item getByKey(String itemKey) throws NullPointerException {
 
-        setItemInfo(model);
+        if(StringUtil.isEmpty(itemKey)) throw new NullPointerException();
+
+        Item model = null;
+        try {
+            model = MemcacheService.getItem(itemKey);
+
+        }catch(ObjectNotFoundException e) {
+            // DBから取得
+            model = dao.getOrNull(createKey(itemKey));
+            if(model == null) return null;
+            
+            // 付属情報の追加
+            setItemInfo(model);
+            
+            // キャッシュを追加
+            MemcacheService.addItem(model);
+        }
         
         return model;
     }
@@ -356,6 +352,21 @@ public class ItemService {
         }
     }
     
+    /**
+     * アイテムの付属情報の設定
+     * @param item
+     * @param lang
+     */
+    private static void setItemInfo(Item item) {
+        
+        item.setTextResources(TextItemResourcesService.getResourcesMap(item));
+        
+        item.setGcsResources(GcsItemResourcesService.getResourcesMap(item));
+        
+        List<String> tagsList = SearchApiService.getItemTags(item);
+        item.setTagsList(tagsList == null ? new ArrayList<String>() : tagsList);
+    }
+    
     
     // ----------------------------------------------------------------------
     // キーの作成
@@ -374,19 +385,10 @@ public class ItemService {
      * キーの作成
      * @return
      */
-    public static Key createKey(User user) {
+    private static Key createKey(User user) {
         // キーを乱数にする
         UUID uniqueKey = UUID.randomUUID();
         return createKey(user.getKey().getId() + "_" + uniqueKey.toString());
-    }
-    
-    /**
-     * キャッシュクリア
-     * @param userId
-     * @param lang
-     */
-    public static void clearMemcache(String itemId) {
-        Memcache.delete(MemcacheKeyService.getItemKey(itemId));
     }
 
 }
