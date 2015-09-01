@@ -37,7 +37,7 @@ public class TagDeleteEntryController extends BaseController {
         
         // キャッシュクリア
         MemcacheService.deleteUser(user.getUserId());
-        
+        MemcacheService.deleteItem(item.getKey().getName());
         
         requestScope("status", "OK");
         return forward("/user/ajax_response.jsp");
