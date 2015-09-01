@@ -372,6 +372,7 @@ jQuery(function($) {
     		  url: nextUrl,
     		  dataType: 'html',
     		  success: function(data) {
+    			  $('.listHasNext').remove();
     			  $('.item-list-row').append(data);
     		  },
 			  complete: function(data) {
