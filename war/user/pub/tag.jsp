@@ -16,6 +16,13 @@ boolean isOwner = Boolean.valueOf((String) request.getAttribute("isOwner"));
 List<Item> itemList =(List<Item>) request.getAttribute("itemList");
 Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
 String tag = (String) request.getAttribute("tag");
+
+String cursor = null;
+boolean hasNext = false;
+if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") != null) {
+	cursor = (String) request.getAttribute("cursor");
+	hasNext = Boolean.valueOf((String) request.getAttribute("hasNext"));
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -70,7 +77,7 @@ String tag = (String) request.getAttribute("tag");
     	</section>
 
 
-		<!-- item-list start -->
+		<!-- item-list section start -->
 		<%if(itemList.size() > 0) { %>
 		<section class="portfolio portfolio-box">
 			<div class="container">
@@ -98,12 +105,24 @@ String tag = (String) request.getAttribute("tag");
 				</div>
 				
 			</div>
-			<jsp:include page="/user/pub/include-parts/user_item_list.jsp">
-				<jsp:param name="isEditPage" value="false" />
-			</jsp:include>
+			
+			<!-- item-list -->
+			<div class="container">
+				<div class="row <%=isOwner ? "connectedSortable" :""  %>">
+				
+					<jsp:include page="/user/pub/include-parts/item_list.jsp" />
+				
+					<%if(hasNext) { %>
+					<div class="col-md-12 col-xs-12 text-center listHasNext">
+						<a class="btn btn-default" href="/portfolioTagNext/<%=user.getUserId() %>/<%=tag %>/<%=cursor %>">もっと見る</a>
+					</div>
+					<%} %>
+					
+				</div>
+			</div><!-- item-list end -->
 		</section>
 		<%} %>
-		<!-- item-list end -->
+		<!-- item-list section end -->
 	
 
 		<!-- Footer start -->

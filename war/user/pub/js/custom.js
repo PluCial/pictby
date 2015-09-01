@@ -349,7 +349,7 @@ jQuery(function($) {
       });
       
       /* ----------------------------------------------------------- */
-      /*  lpage-scroll
+      /*  page-scroll
       /* ----------------------------------------------------------- */
       $('a.page-scroll').bind('click', function(event) {
           var $anchor = $(this);
@@ -358,5 +358,29 @@ jQuery(function($) {
           }, 1000, 'easeInOutExpo');
           event.preventDefault();
        });
+      
+      /* ----------------------------------------------------------- */
+      /*  read more
+      /* ----------------------------------------------------------- */
+      $('a.nextLink').bind('click', function(event) {
+
+    	  var nextUrl = $(this).attr('href');
+    	  waitingDialog.show();
+    	  
+    	  $.ajax({
+    		  type: 'GET',
+    		  url: nextUrl,
+    		  dataType: 'html',
+    		  success: function(data) {
+    			  $('.item-list-row').append(data);
+    		  },
+			  complete: function(data) {
+				  waitingDialog.hide();
+        		  return false;
+			  }
+    	  });
+    	  
+    	  return false;
+      });
 
 });

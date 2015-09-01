@@ -22,8 +22,8 @@ public class App {
     
     public static final int TOP_NEW_CREATOR_LIST_LIMIT = 4;
     
-    public static final int USER_PORTFOLIO_ITEM_LIST_LIMIT = 30;
+    public static final int USER_PORTFOLIO_ITEM_LIST_LIMIT = 3;
     
-    public static final int KEYWORD_SEARCH_ITEM_LIST_LIMIT = 30;
+    public static final int KEYWORD_SEARCH_ITEM_LIST_LIMIT = 3;
 
 }

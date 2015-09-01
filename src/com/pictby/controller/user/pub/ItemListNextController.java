@@ -9,23 +9,29 @@ import com.pictby.model.Item;
 import com.pictby.model.User;
 import com.pictby.service.ItemService;
 
-public class IndexController extends BaseController {
+public class ItemListNextController extends BaseController {
 
     @Override
-    protected Navigation execute(User user, boolean isLogged,
-            boolean isOwner) throws Exception {
+    protected Navigation execute(User user, boolean isLogged, boolean isOwner)
+            throws Exception {
         
-        S3QueryResultList<Item> itemList = ItemService.getItemList(user, null);
+        String cursor = asString("cursor");
+        if(cursor == null) {
+            requestScope("itemList", new ArrayList<Item>());
+            return forward("itemListNext.jsp");
+        }
         
+        S3QueryResultList<Item> itemList = ItemService.getItemList(user, cursor);
         if(itemList == null) {
             requestScope("itemList", new ArrayList<Item>());
-            return forward("index.jsp");
+            return forward("itemListNext.jsp");
         }
         
         requestScope("itemList", itemList);
         requestScope("cursor", itemList.getEncodedCursor());
         requestScope("hasNext", String.valueOf(itemList.hasNext()));
         
-        return forward("index.jsp");
+        
+        return forward("itemListNext.jsp");
     }
 }
