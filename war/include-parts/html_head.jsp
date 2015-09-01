@@ -18,10 +18,10 @@ String pageDescription = (String) request.getAttribute("pageDescription");
 
 	<!-- Favicons
 	================================================== -->
-	<link rel="icon" href="img/favicon/favicon-32x32.png" type="image/x-icon" />
-	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/favicon/favicon-144x144.png">
-	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/favicon/favicon-72x72.png">
-	<link rel="apple-touch-icon-precomposed" href="img/favicon/favicon-54x54.png">
+	<link rel="icon" href="/images/favicon/favicon-32x32.png" type="image/x-icon" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/favicon/favicon-144x144.png">
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/favicon/favicon-72x72.png">
+	<link rel="apple-touch-icon-precomposed" href="/images/favicon/favicon-54x54.png">
 	
 	<!-- CSS
 	================================================== -->
