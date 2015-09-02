@@ -1,14 +1,14 @@
-<!-- Indices written at Wed, 2 Sep 2015 15:38:01 JST -->
+<!-- Indices written at Wed, 2 Sep 2015 20:17:39 JST -->
 
 <datastore-indexes>
 
-    <!-- Used 7 times in query history -->
+    <!-- Used 1 time in query history -->
     <datastore-index kind="ItemTag" ancestor="false" source="auto">
         <property name="userRef" direction="asc"/>
         <property name="itemCount" direction="desc"/>
     </datastore-index>
 
-    <!-- Used 6 times in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="Item" ancestor="false" source="auto">
         <property name="userRef" direction="asc"/>
         <property name="sortOrder" direction="asc"/>

@@ -362,7 +362,7 @@ jQuery(function($) {
       /* ----------------------------------------------------------- */
       /*  read more
       /* ----------------------------------------------------------- */
-      $('a.nextLink').bind('click', function(event) {
+      function nextLinkHandler(event) {
 
     	  var nextUrl = $(this).attr('href');
     	  waitingDialog.show();
@@ -374,6 +374,8 @@ jQuery(function($) {
     		  success: function(data) {
     			  $('.listHasNext').remove();
     			  $('.item-list-row').append(data);
+    			  
+    			  $('a.nextLink').bind('click', nextLinkHandler);
     		  },
 			  complete: function(data) {
 				  waitingDialog.hide();
@@ -382,6 +384,8 @@ jQuery(function($) {
     	  });
     	  
     	  return false;
-      });
+      }
+
+      $('a.nextLink').bind('click', nextLinkHandler);
 
 });

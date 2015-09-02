@@ -13,6 +13,13 @@
 <%
 List<Item> itemList =(List<Item>) request.getAttribute("itemList");
 String keyword = (String)request.getAttribute("keyword");
+
+String cursor = null;
+boolean hasNext = false;
+if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") != null) {
+	cursor = (String) request.getAttribute("cursor");
+	hasNext = Boolean.valueOf((String) request.getAttribute("hasNext"));
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -46,26 +53,12 @@ String keyword = (String)request.getAttribute("keyword");
 			
 			<%if(itemList.size() > 0) { %>
 			<div class="container">
-				<div class="row">
-					<%for(Item item: itemList) {
-						User user = item.getUserRef().getModel();
-					%>
-					<div class="col-md-4 col-xs-12 item-box wow fadeInUp animated">
-						<figure class="" data-wow-duration="500ms" data-wow-delay="0ms">
-							<div class="img-wrapper" style="background-image: url(<%=item.getOriginalImageUrl() %>)">
-								<a href="/<%=user.getUserId() %>/item/<%=item.getKey().getName() %>"></a>
-							</div>
-							<figcaption>
-                                <h4>
-                                	<a href="/<%=user.getUserId() %>/item/<%=item.getKey().getName() %>"><%=item.getName() %></a>
-                                </h4>
-                                <p><b><%=item.getOriginalImageContentType().replace("image/", "") %></b> | <%=item.getOriginalImageWidth() %>px × <%=item.getOriginalImageHeight() %>px</p>
-                             </figcaption>
-							<div class="sort-bar">
-								<i class="fa fa-ellipsis-v"></i>
-								<i class="fa fa-ellipsis-v"></i>
-							</div>
-						</figure>
+				<div class="row item-list-row">
+					<jsp:include page="/user/pub/include-parts/item_list.jsp" />
+					
+					<%if(hasNext) { %>
+					<div class="col-md-12 col-xs-12 text-center listHasNext">
+						<a class="btn btn-default nextLink" href="/kwsnt?keyword=<%=keyword %>&cursor=<%=cursor %>">もっと見る</a>
 					</div>
 					<%} %>
 				</div>
@@ -84,6 +77,9 @@ String keyword = (String)request.getAttribute("keyword");
 	<!-- javaScript start -->
 	<jsp:include page="/include-parts/html_script.jsp" />
 	<!-- javaScript end -->
+	
+	<!-- waiting dialog -->
+	<script type="text/javascript" src="/plugins/waiting-dialog/waiting-dialog.js"></script>
 	
 </body>
 </html>

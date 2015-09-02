@@ -8,15 +8,14 @@ import org.slim3.util.StringUtil;
 
 import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
-import com.pictby.exception.NoContentsException;
 import com.pictby.model.Item;
 import com.pictby.model.User;
 import com.pictby.service.SearchApiService;
 
-public class KwsController extends BaseController {
+public class KwsNextController extends BaseController {
 
     @Override
-    protected Navigation run() throws Exception {
+    public Navigation run() throws Exception {
         
         User loginUser = sessionScope("loginUser");
         if(loginUser != null) {
@@ -25,14 +24,18 @@ public class KwsController extends BaseController {
         }
         
         String keyword = asString("keyword");
-        if(StringUtil.isEmpty(keyword)) throw new NoContentsException();
+        String cursor = asString("cursor");
+        if(StringUtil.isEmpty(keyword) || StringUtil.isEmpty(cursor)) {
+            requestScope("itemList", new ArrayList<Item>());
+            return forward("kwsNext.jsp");
+        }
 
-        Results<ScoredDocument> results = SearchApiService.searchByKeyword(keyword, null);
+        Results<ScoredDocument> results = SearchApiService.searchByKeyword(keyword, cursor);
         List<Item> itemList = SearchApiService.getItemListByResults(results);
         
         if(itemList == null) {
             requestScope("itemList", new ArrayList<Item>());
-            return forward("keyword.jsp");
+            return forward("kwsNext.jsp");
         }
         
         requestScope("itemList", itemList);
@@ -42,6 +45,6 @@ public class KwsController extends BaseController {
             requestScope("cursor", results.getCursor().toWebSafeString());
         }
         
-        return forward("keyword.jsp");
+        return forward("kwsNext.jsp");
     }
 }

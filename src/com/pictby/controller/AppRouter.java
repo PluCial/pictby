@@ -12,10 +12,16 @@ public class AppRouter extends RouterImpl {
 
 	public AppRouter() {
 
+	    // 検索結果画面
         addRouting(
                 "/kws",
                 "/kws");
+        
+        addRouting(
+            "/kwsnt",
+            "/kwsNext");
 
+        // 検索ダイアログボックス
         addRouting(
                 "/kwsb",
                 "/kwsb");

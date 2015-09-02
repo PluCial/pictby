@@ -97,15 +97,13 @@ public class SearchApiService {
                 .setNumber(imageResources.getHeight()))
             .addField(Field.newBuilder()
                 .setName("published")
-                .setDate(item.getCreateDate()))
+                .setAtom(String.valueOf(new Date().getTime())))
             .addField(Field.newBuilder()
                 .setName("sortOrder")
                 .setAtom(String.valueOf(item.getSortOrder())))
         .build();
 
         Index index = getDocumentIndex();
-        
-        System.out.println(item.getSortOrder());
 
         index.put(document);
     }
@@ -115,11 +113,12 @@ public class SearchApiService {
      * @param userModel
      * @param content
      */
-    public static List<Item> searchByKeyword(String qstrString) throws Exception {
+    private static Results<ScoredDocument> searchByKeyword(String qstrString) throws Exception {
         
         if(StringUtil.isEmpty(qstrString)) throw new NullPointerException();
         
-        String qstr = qstrString;
+        // クリエ毎のカーソルを使用
+        Cursor cursor = Cursor.newBuilder().setPerResult(false).build();
         
         Index index = getDocumentIndex();
         
@@ -130,14 +129,44 @@ public class SearchApiService {
                     .setSortOptions(SortOptions.newBuilder()
                     .addSortExpression(SortExpression.newBuilder()
                         .setExpression("published")
-                        .setDefaultValueDate(new Date())
                         .setDirection(SortDirection.DESCENDING)))
+                    .setCursor(cursor)
                     .build())
-                    .build(qstr);
+                    .build(qstrString);
         Results<ScoredDocument> results = index.search(query);
         
-        return getItemListByResults(results);
+        return results;
         
+    }
+    
+    /**
+     * キーワード検索
+     * @param qstrString
+     * @param cursorString
+     * @return
+     * @throws Exception
+     */
+    public static Results<ScoredDocument> searchByKeyword(String qstrString, String cursorString) throws Exception {
+        if (StringUtil.isEmpty(cursorString)) return searchByKeyword(qstrString);
+
+        Cursor cursor = Cursor.newBuilder().setPerResult(false).build(cursorString);
+
+        Index index = getDocumentIndex();
+
+        Query query = Query.newBuilder()
+                .setOptions(QueryOptions
+                    .newBuilder()
+                    .setLimit(App.KEYWORD_SEARCH_ITEM_LIST_LIMIT)
+                    .setSortOptions(SortOptions.newBuilder()
+                        .addSortExpression(SortExpression.newBuilder()
+                            .setExpression("published")
+                            .setDirection(SortDirection.DESCENDING)))
+                        .setCursor(cursor)
+                        .build())
+                        .build(qstrString);
+        Results<ScoredDocument> results = index.search(query);
+
+        return results;
     }
     
     /**
