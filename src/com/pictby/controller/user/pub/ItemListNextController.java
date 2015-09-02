@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.slim3.controller.Navigation;
 import org.slim3.datastore.S3QueryResultList;
+import org.slim3.util.StringUtil;
 
 import com.pictby.model.Item;
 import com.pictby.model.User;
@@ -16,7 +17,7 @@ public class ItemListNextController extends BaseController {
             throws Exception {
         
         String cursor = asString("cursor");
-        if(cursor == null) {
+        if(StringUtil.isEmpty(cursor)) {
             requestScope("itemList", new ArrayList<Item>());
             return forward("itemListNext.jsp");
         }

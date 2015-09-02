@@ -7,6 +7,7 @@ import com.pictby.model.Item;
 import com.pictby.model.User;
 import com.pictby.service.ItemService;
 import com.pictby.service.MemcacheService;
+import com.pictby.service.SearchApiService;
 
 public class ItemChangeIndexController extends BaseController {
 
@@ -60,6 +61,8 @@ public class ItemChangeIndexController extends BaseController {
         // キャッシュクリア
         MemcacheService.deleteItem(itemId);
         
+        // Documentを更新
+        SearchApiService.putDocument(user, targetItem, targetItem.getOriginalImageResources(), targetItem.getName(), targetItem.getDetail(), targetItem.getTagsList());
         
         requestScope("status", "OK");
         return forward("/user/ajax_response.jsp");

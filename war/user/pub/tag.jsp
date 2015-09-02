@@ -108,13 +108,13 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 			
 			<!-- item-list -->
 			<div class="container">
-				<div class="row <%=isOwner ? "connectedSortable" :""  %>">
+				<div class="row item-list-row">
 				
 					<jsp:include page="/user/pub/include-parts/item_list.jsp" />
 				
 					<%if(hasNext) { %>
 					<div class="col-md-12 col-xs-12 text-center listHasNext">
-						<a class="btn btn-default" href="/portfolioTagNext/<%=user.getUserId() %>/<%=tag %>/<%=cursor %>">もっと見る</a>
+						<a class="btn btn-default nextLink" href="/<%=user.getUserId() %>/tag/<%=tag %>/tagNext?cursor=<%=cursor %>">もっと見る</a>
 					</div>
 					<%} %>
 					
@@ -134,6 +134,9 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 	<!-- javaScript start -->
 	<jsp:include page="/include-parts/html_script.jsp" />
 	<!-- javaScript end -->
+	
+	<!-- waiting dialog -->
+	<script type="text/javascript" src="/plugins/waiting-dialog/waiting-dialog.js"></script>
 	
 </body>
 </html>

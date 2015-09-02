@@ -41,13 +41,12 @@ public class EditTextResourcesEntryController extends BaseController {
             
             TextItemResourcesService.update(resourcesKey, content);
             
+            // キャッシュクリアしてから再取得
+            MemcacheService.deleteItem(itemId);
             Item item = ItemService.getByKey(itemId);
             
             // Documentを更新
             SearchApiService.putDocument(user, item, item.getOriginalImageResources(), item.getName(), item.getDetail(), item.getTagsList());
-            
-            // キャッシュクリア
-            MemcacheService.deleteItem(itemId);
             
         }else {
             TextUserResourcesService.update(resourcesKey, content);

@@ -19,10 +19,6 @@ public class AppRouter extends RouterImpl {
         addRouting(
                 "/kwsb",
                 "/kwsb");
-        
-//        addRouting(
-//            "/portfolioNext/{userId}/{cursor}",
-//            "/user/pub/portfolioNext?userId={userId}&cursor={cursor}");
 
         addRouting(
                 "/user/userTags/{userId}/{token}",
@@ -61,8 +57,8 @@ public class AppRouter extends RouterImpl {
             "/user/pub/tag?userId={userId}&tag={tag}");
         
         addRouting(
-            "/{userId}/tag/tagNext",
-            "/user/pub/tagNext?userId={userId}");
+            "/{userId}/tag/{tag}/tagNext",
+            "/user/pub/tagNext?userId={userId}&tag={tag}");
 	}
 
 }
