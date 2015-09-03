@@ -182,18 +182,29 @@ if(item.getTagsList() != null && item.getTagsList().size() > 0) {
 								</div>
 							</div>
 						
-							<%if(isOwner) { %>
+							
 							<div class="widget" style="padding-top: 50px;">
 								<div class="text-center" style="border-top: 1px solid #ddd;border-bottom: 1px solid #ddd;padding: 20px 0;">
+									<a data-toggle="modal" 
+										data-backdrop="static"
+										data-target="#embedCodeModal"
+										class="btn btn-primary"
+										href="/gec?itemId=<%=item.getKey().getName() %>"><i class="fa fa-code"></i> 埋め込みコードを取得
+									</a>
+								</div>
+							</div>
+							
+							<div class="widget text-center">
+								<%if(isOwner) { %>
 									<a data-toggle="modal" 
 										data-backdrop="static" 
 										data-target="#itemDeleteModal" 
 										href="/user/secure/itemDelete?itemId=<%=item.getKey().getName() %>" 
 										class="btn btn-danger"><i class="fa fa-trash"></i> このアイテムを削除する
 									</a>
-								</div>
+								<%} %>
 							</div>
-							<%} %>
+							
 						
 						</div>
 					</div>
@@ -212,12 +223,16 @@ if(item.getTagsList() != null && item.getTagsList().size() > 0) {
 	<jsp:include page="/include-parts/html_script.jsp" />
 	<!-- javaScript end -->
 	
+	<jsp:include page="/include-parts/dialog_modal.jsp">
+		<jsp:param name="modelId" value="embedCodeModal" />
+	</jsp:include>
+	
 	<!-- text_resources_edit_modal start -->
 	<%if(isOwner) { %>
-	<jsp:include page="/user/dialog_modal.jsp">
+	<jsp:include page="/include-parts/dialog_modal.jsp">
 		<jsp:param name="modelId" value="textResourcesModal" />
 	</jsp:include>
-	<jsp:include page="/user/dialog_modal.jsp">
+	<jsp:include page="/include-parts/dialog_modal.jsp">
 		<jsp:param name="modelId" value="itemDeleteModal" />
 	</jsp:include>
 	<!-- waiting dialog -->

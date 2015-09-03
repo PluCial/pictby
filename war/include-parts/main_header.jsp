@@ -23,7 +23,7 @@ boolean isLogged = Boolean.valueOf((String) request.getAttribute("isLogged"));
 				    <div class="navbar-brand">
 				    	<a data-toggle="modal" 
 								data-backdrop="static"
-								data-target="#preparingModal" 
+								data-target="#searchModal" 
 								style="font-size: 18px;height: 50px;border-radius: 0px;display: inline-block;padding-left: 20px;padding-right: 20px;background-color: rgba(22, 26, 30, 0.8);"
 								class=""
 								href="/kwsb"><i class="fa fa-search" style="color: #fff;"></i>

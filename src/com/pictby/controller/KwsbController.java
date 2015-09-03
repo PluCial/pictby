@@ -1,6 +1,5 @@
 package com.pictby.controller;
 
-import org.slim3.controller.Controller;
 import org.slim3.controller.Navigation;
 
 /**
@@ -8,7 +7,7 @@ import org.slim3.controller.Navigation;
  * @author takahara
  *
  */
-public class KwsbController extends Controller {
+public class KwsbController extends BaseController {
 
     @Override
     public Navigation run() throws Exception {

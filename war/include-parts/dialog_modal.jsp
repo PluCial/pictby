@@ -78,7 +78,7 @@ String modelId = (String)request.getParameter("modelId");
 				});
 			});
 			
-			<%}else if(modelId.equals("preparing")) { %>
+			<%}else if(modelId.equals("searchModal")) { %>
 			
 			/* ----------------------------------------------------------- */
 			/*  Search
@@ -99,7 +99,17 @@ String modelId = (String)request.getParameter("modelId");
 			});
 			
 			
-			<%}else if(modelId.equals("preparing")) { %>
+			<%}else if(modelId.equals("preparingModal")) { %>
+			
+			/* ----------------------------------------------------------- */
+			/*  embedCodeModal
+			/* ----------------------------------------------------------- */
+			$('#embedCodeModal').on('hidden.bs.modal', function () {
+				$('#embedCodeModal').removeData('bs.modal');
+			});
+			
+			
+			<%}else if(modelId.equals("preparingModal")) { %>
 			
 			/* ----------------------------------------------------------- */
 			/*  preparing

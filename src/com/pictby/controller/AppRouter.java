@@ -37,6 +37,9 @@ public class AppRouter extends RouterImpl {
         addRouting(
             "/emJs",
             "/embedJs");
+        addRouting(
+            "/gec",
+            "/getEmbedCode");
 	    
 	    setUser();
 	}

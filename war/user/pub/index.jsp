@@ -199,7 +199,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 	
 	<!-- dialog_modal start -->
 	<%if(isOwner) { %>
-	<jsp:include page="/user/dialog_modal.jsp">
+	<jsp:include page="/include-parts/dialog_modal.jsp">
 		<jsp:param name="modelId" value="textResourcesModal" />
 	</jsp:include>
 	<%} %>
