@@ -23,7 +23,6 @@ $(function () {
 					dataType: 'html',
 					success: function(data) {
 						embedTag.append(data);
-						
 					}
 				});
 			});

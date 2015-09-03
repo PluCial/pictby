@@ -26,11 +26,7 @@ int imageWidth = item.getOriginalImageWidth() >= App.EMBED_MAX_IMAGE_WIDTH ? App
 						text-decoration: none;
 						padding: 5px;
 						position: relative;
-/* 						background-color: rgba(0, 0, 0, 0.11); */
 						text-align: right;">
-					<%-- <span style="display:inline-block;">
-						<img src="<%=domein %>/images/favicon/favicon-32x32.png" alt="<%=App.APP_DISPLAY_NAME %>" style="width: 20px;opacity: 1;vertical-align: middle;" />
-					</span> --%>
 					<span style="padding-right: 10px;text-shadow: 1px 1px 3px rgba(0,0,0,.5),1px 1px 5px rgba(0,0,0,.3);">PICTBY</span>
 					<span style="text-shadow: 1px 1px 3px rgba(0,0,0,.5),1px 1px 5px rgba(0,0,0,.3);"><%=user.getName() %></span>
 				</a>
