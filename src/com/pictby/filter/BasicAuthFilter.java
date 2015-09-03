@@ -77,6 +77,9 @@ public class BasicAuthFilter implements Filter {
                 || url.endsWith(".jpg") 
                 || url.endsWith(".png")) return false;
         
+        // 埋め込みタグ
+        if(url.indexOf("embed") >= 0) return false;
+        
         return true;
     }
 
