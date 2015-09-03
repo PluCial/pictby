@@ -144,9 +144,10 @@ public class UserService {
      * @param model
      * @param password
      * @return
+     * @throws NoSuchAlgorithmException 
      */
-    public static void updatePassword(User model, String password) {
-        model.setPassword(password);
+    public static void updatePassword(User model, String password) throws NoSuchAlgorithmException {
+        model.setPassword(getCipherPassword(model.getUserId(), password));
         
         dao.put(model);
     }
