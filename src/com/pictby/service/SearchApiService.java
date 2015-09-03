@@ -96,7 +96,13 @@ public class SearchApiService {
                 .setName("height")
                 .setNumber(imageResources.getHeight()))
             .addField(Field.newBuilder()
+                .setName("servingUrl")
+                .setAtom(imageResources.getServingUrl()))
+            .addField(Field.newBuilder()
                 .setName("published")
+                .setAtom(String.valueOf(item.isPublished())))
+            .addField(Field.newBuilder()
+                .setName("publishedDate")
                 .setAtom(String.valueOf(new Date().getTime())))
             .addField(Field.newBuilder()
                 .setName("sortOrder")
@@ -117,6 +123,8 @@ public class SearchApiService {
         
         if(StringUtil.isEmpty(qstrString)) throw new NullPointerException();
         
+        String qstr = qstrString + " AND published=\"true\"";
+        
         // クリエ毎のカーソルを使用
         Cursor cursor = Cursor.newBuilder().setPerResult(false).build();
         
@@ -128,11 +136,11 @@ public class SearchApiService {
                     .setLimit(App.KEYWORD_SEARCH_ITEM_LIST_LIMIT)
                     .setSortOptions(SortOptions.newBuilder()
                     .addSortExpression(SortExpression.newBuilder()
-                        .setExpression("published")
+                        .setExpression("publishedDate")
                         .setDirection(SortDirection.DESCENDING)))
                     .setCursor(cursor)
                     .build())
-                    .build(qstrString);
+                    .build(qstr);
         Results<ScoredDocument> results = index.search(query);
         
         return results;
@@ -150,6 +158,8 @@ public class SearchApiService {
         if (StringUtil.isEmpty(cursorString)) return searchByKeyword(qstrString);
 
         Cursor cursor = Cursor.newBuilder().setPerResult(false).build(cursorString);
+        
+        String qstr = qstrString + " AND published=\"true\"";
 
         Index index = getDocumentIndex();
 
@@ -159,11 +169,11 @@ public class SearchApiService {
                     .setLimit(App.KEYWORD_SEARCH_ITEM_LIST_LIMIT)
                     .setSortOptions(SortOptions.newBuilder()
                         .addSortExpression(SortExpression.newBuilder()
-                            .setExpression("published")
+                            .setExpression("publishedDate")
                             .setDirection(SortDirection.DESCENDING)))
                         .setCursor(cursor)
                         .build())
-                        .build(qstrString);
+                        .build(qstr);
         Results<ScoredDocument> results = index.search(query);
 
         return results;
@@ -181,7 +191,8 @@ public class SearchApiService {
         Cursor cursor = Cursor.newBuilder().setPerResult(false).build();
         
         String qstr = "tags:\"" + tag + "\"" 
-                + " AND userKeyId=\"" + user.getKey().getId()  + "\"";
+                + " AND userKeyId=\"" + user.getKey().getId()  + "\""
+                + " AND published=\"true\"";
         
         Index index = getDocumentIndex();
         
@@ -215,7 +226,8 @@ public class SearchApiService {
         Cursor cursor = Cursor.newBuilder().setPerResult(false).build(cursorString);
         
         String qstr = "tags:\"" + tag + "\"" 
-                + " AND userKeyId=\"" + user.getKey().getId()  + "\"";
+                + " AND userKeyId=\"" + user.getKey().getId()  + "\""
+                + " AND published=\"true\"";
         
         Index index = getDocumentIndex();
         

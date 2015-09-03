@@ -2,6 +2,7 @@ package com.pictby.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -53,6 +54,10 @@ public class ItemService {
         model.getUserRef().setModel(user);
         model.setUserId(user.getUserId());
         model.setSortOrder(user.getSortOrderIndex() + 1);
+        
+        //TODO: 臨時対応(公開ボタンの実装時に変更)
+        model.setPublished(true);
+        model.setPublishedDate(new Date());
         
         // ---------------------------------------------------
         // ユーザーのアイテムカウントを設定
@@ -268,8 +273,6 @@ public class ItemService {
     public static void changeSortOrder(Item item, double newOrder) {
         item.setSortOrder(newOrder);
         dao.put(item);
-        
-        // TODO: キャッシュクリア
     }
     
     /**
@@ -322,8 +325,11 @@ public class ItemService {
             GcsItemResourcesService.deleteItemResourcesAll(tx, item);
             
             // タグのアイテム数を更新
-            List<ItemTag> itemTagList = ItemTagService.getUserTagList(user);
-            for(ItemTag itemTag: itemTagList) {
+            List<String> itemTagList = item.getTagsList();
+            for(String tagName: itemTagList) {
+                
+                ItemTag itemTag = ItemTagService.getUserTag(user, tagName);
+                
                 if(itemTag.getItemCount() >= 1) {
                     itemTag.setItemCount(itemTag.getItemCount() - 1);
                     Datastore.put(tx, itemTag);

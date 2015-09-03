@@ -23,7 +23,10 @@ public class ItemDao extends DaoBase<Item>{
      */
     private S3QueryResultList<Item> getList(User user, int num) {
         S3QueryResultList<Item> list = Datastore.query(meta)
-                .filter(meta.userRef.equal(user.getKey()))
+                .filter(
+                    meta.userRef.equal(user.getKey()),
+                    meta.published.equal(true)
+                    )
                         .sort(new Sort(meta.sortOrder))
                         .limit(num)
                         .asQueryResultList();
@@ -41,7 +44,10 @@ public class ItemDao extends DaoBase<Item>{
         if (StringUtil.isEmpty(cursor)) return getList(user, num);
         
         S3QueryResultList<Item> list = Datastore.query(meta)
-                .filter(meta.userRef.equal(user.getKey()))
+                .filter(
+                    meta.userRef.equal(user.getKey()),
+                    meta.published.equal(true)
+                    )
                         .sort(new Sort(meta.sortOrder))
                         .encodedStartCursor(cursor)
                         .limit(num)
@@ -58,6 +64,9 @@ public class ItemDao extends DaoBase<Item>{
      */
     private S3QueryResultList<Item> getNew(int num) {
         S3QueryResultList<Item> list = Datastore.query(meta)
+                .filter(
+                    meta.published.equal(true)
+                    )
                         .sort(meta.sortOrder.desc)
                         .limit(num)
                         .asQueryResultList();
@@ -75,6 +84,9 @@ public class ItemDao extends DaoBase<Item>{
         if (StringUtil.isEmpty(cursor)) return getNew(num);
         
         S3QueryResultList<Item> list = Datastore.query(meta)
+                .filter(
+                    meta.published.equal(true)
+                    )
                         .sort(meta.sortOrder.desc)
                         .encodedStartCursor(cursor)
                         .limit(num)

@@ -14,7 +14,7 @@ public class ItemDeleteEntryController extends BaseController {
         
         String itemId = asString("itemId");
         
-        Item item = ItemService.getItemModelOnly(itemId);
+        Item item = ItemService.getByKey(itemId);
         ItemService.deleteItem(user, item);
         
         // キャッシュクリア

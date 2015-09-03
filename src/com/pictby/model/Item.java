@@ -44,6 +44,16 @@ public class Item implements Serializable {
     private String userId;
     
     /**
+     * 公開済みフラグ
+     */
+    private boolean published = false;
+    
+    /**
+     * 公開日時
+     */
+    private Date publishedDate;
+    
+    /**
      * 作成日時
      */
     @Attribute(listener = CreationDate.class)
@@ -280,5 +290,21 @@ public class Item implements Serializable {
 
     public void setDetailResources(ItemTextRes detailResources) {
         this.detailResources = detailResources;
+    }
+
+    public boolean isPublished() {
+        return published;
+    }
+
+    public void setPublished(boolean published) {
+        this.published = published;
+    }
+
+    public Date getPublishedDate() {
+        return publishedDate;
+    }
+
+    public void setPublishedDate(Date publishedDate) {
+        this.publishedDate = publishedDate;
     }
 }

@@ -134,7 +134,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 				
 				<div class="row">
 					<div class="col-md-12 heading text-center">
-						<h2 class="title3">Portfolio
+						<h2 class="title3">Portfolio <span style="font-size: 20px;">(<%=user.getItemCount() %>枚)</span>
 						</h2>
 					</div>
 				</div>
@@ -159,7 +159,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 								for(ItemTag itemTag : user.getItemTagList()) {
 									if(itemTag.getItemCount() > 0) {
 							%>
-							<li><a href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %></a></li>
+							<li><a href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %> (<%=itemTag.getItemCount() %>枚)</a></li>
 							<%} %>
 							<%} %>
 						</ul>
