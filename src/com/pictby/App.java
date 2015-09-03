@@ -25,5 +25,10 @@ public class App {
     public static final int USER_PORTFOLIO_ITEM_LIST_LIMIT = 3;
     
     public static final int KEYWORD_SEARCH_ITEM_LIST_LIMIT = 3;
+    
+    // ---------------------------------------------------
+    // 埋め込みタグ
+    // ---------------------------------------------------
+    public static final int EMBED_MAX_IMAGE_WIDTH = 960;
 
 }

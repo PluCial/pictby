@@ -29,6 +29,14 @@ public class AppRouter extends RouterImpl {
         addRouting(
                 "/user/userTags/{userId}/{token}",
                 "/user/secure/userTags?userId={userId}");
+        
+        // 埋め込みタグ
+        addRouting(
+                "/embed/{itemId}",
+                "/embed?itemId={itemId}");
+        addRouting(
+            "/emJs",
+            "/embedJs");
 	    
 	    setUser();
 	}

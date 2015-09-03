@@ -31,11 +31,17 @@ public class BasicAuthFilter implements Filter {
         try {
             HttpServletRequest req = (HttpServletRequest) request;
             String authHeader = req.getHeader("Authorization");
-            // Authorization ヘッダを確認
-            if (!tryAuth(authHeader, req)) 
+            
+            // ターゲットチェック & Authorization ヘッダを確認
+            if (isTarget(req) && !tryAuth(authHeader, req)) {
+                // 承認処理
                 send401(response, REALM, "Authentication Required for " + REALM);
-            else
+            
+            }else {
+                // 通常処理
                 chain.doFilter(request, response);
+            }
+            
         } catch (ServletException e) {
             log.severe(e.getMessage());
         } catch (IOException e) {
@@ -45,41 +51,33 @@ public class BasicAuthFilter implements Filter {
     }
 
     public void init(FilterConfig filterConfig) throws ServletException {
-        
         userMap.put("bases", "hakata");
-        
-//     // REALMを設定
-//        String tmp = filterConfig.getInitParameter("realm");
-//        if (tmp != null)
-//            REALM = tmp;
-//        log.info("realm = " + REALM);
-//        
-//        // パスワードファイルを設定
-//        tmp =  filterConfig.getInitParameter("passwdFile");
-//        if (tmp != null) 
-//            passwdFile = tmp;
-//        log.info("passwdFile = " + passwdFile);
-//
-//        //パスワードファイルの読み込み
-//        Properties passProp = new Properties();
-//        try {
-//            passProp.load(new FileReader(passwdFile));
-//            for (Object o: passProp.keySet()) {
-//                String user = (String)o;
-//                String pass = passProp.getProperty(user).trim();
-//                userMap.put(user, pass);
-//            }
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
     }
     
     public void destroy() {
         // TODO 自動生成されたメソッド・スタブ
 
+    }
+    
+    /**
+     * フィルターターゲットかをチェック
+     * @param req
+     * @return
+     */
+    private boolean isTarget( HttpServletRequest request) {
+        
+        // ドメインチェック(ローカルの場合は除外)
+        String serverName = request.getServerName() != null ? request.getServerName() : "";
+        if(serverName.equals("localhost") || serverName.equals("127.0.0.1")) return false;
+        
+        // 静的ファイルチェック
+        String url = request.getRequestURL().toString();
+        if(url.endsWith(".js") 
+                || url.endsWith(".html") 
+                || url.endsWith(".jpg") 
+                || url.endsWith(".png")) return false;
+        
+        return true;
     }
 
     private boolean tryAuth(String authHeader, HttpServletRequest req) {
