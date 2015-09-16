@@ -3,7 +3,6 @@ package com.pictby.controller.info;
 import org.slim3.controller.Navigation;
 import org.slim3.controller.validator.Validators;
 
-import com.pictby.enums.EntryType;
 import com.pictby.service.EMailService;
 
 public class ContactEntryController extends BaseController {
