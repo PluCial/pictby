@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.slim3.util.StringUtil;
 
+import com.google.appengine.api.search.Cursor;
 import com.google.appengine.api.search.Document;
 import com.google.appengine.api.search.Field;
 import com.google.appengine.api.search.Index;
@@ -95,8 +96,17 @@ public class SearchApiService {
                 .setName("height")
                 .setNumber(imageResources.getHeight()))
             .addField(Field.newBuilder()
+                .setName("servingUrl")
+                .setAtom(imageResources.getServingUrl()))
+            .addField(Field.newBuilder()
                 .setName("published")
-                .setDate(item.getCreateDate()))
+                .setAtom(String.valueOf(item.isPublished())))
+            .addField(Field.newBuilder()
+                .setName("publishedDate")
+                .setAtom(String.valueOf(new Date().getTime())))
+            .addField(Field.newBuilder()
+                .setName("sortOrder")
+                .setAtom(String.valueOf(item.getSortOrder())))
         .build();
 
         Index index = getDocumentIndex();
@@ -109,11 +119,14 @@ public class SearchApiService {
      * @param userModel
      * @param content
      */
-    public static List<Item> searchByKeyword(String qstrString) throws Exception {
+    private static Results<ScoredDocument> searchByKeyword(String qstrString) throws Exception {
         
         if(StringUtil.isEmpty(qstrString)) throw new NullPointerException();
         
-        String qstr = qstrString;
+        String qstr = qstrString + " AND published=\"true\"";
+        
+        // クリエ毎のカーソルを使用
+        Cursor cursor = Cursor.newBuilder().setPerResult(false).build();
         
         Index index = getDocumentIndex();
         
@@ -123,27 +136,63 @@ public class SearchApiService {
                     .setLimit(App.KEYWORD_SEARCH_ITEM_LIST_LIMIT)
                     .setSortOptions(SortOptions.newBuilder()
                     .addSortExpression(SortExpression.newBuilder()
-                        .setExpression("published")
-                        .setDefaultValueDate(new Date())
+                        .setExpression("publishedDate")
                         .setDirection(SortDirection.DESCENDING)))
+                    .setCursor(cursor)
                     .build())
                     .build(qstr);
         Results<ScoredDocument> results = index.search(query);
         
-        return getItemListByResults(results);
+        return results;
         
     }
     
     /**
-     * キーによるドキュメントの検索
+     * キーワード検索
+     * @param qstrString
+     * @param cursorString
+     * @return
+     * @throws Exception
+     */
+    public static Results<ScoredDocument> searchByKeyword(String qstrString, String cursorString) throws Exception {
+        if (StringUtil.isEmpty(cursorString)) return searchByKeyword(qstrString);
+
+        Cursor cursor = Cursor.newBuilder().setPerResult(false).build(cursorString);
+        
+        String qstr = qstrString + " AND published=\"true\"";
+
+        Index index = getDocumentIndex();
+
+        Query query = Query.newBuilder()
+                .setOptions(QueryOptions
+                    .newBuilder()
+                    .setLimit(App.KEYWORD_SEARCH_ITEM_LIST_LIMIT)
+                    .setSortOptions(SortOptions.newBuilder()
+                        .addSortExpression(SortExpression.newBuilder()
+                            .setExpression("publishedDate")
+                            .setDirection(SortDirection.DESCENDING)))
+                        .setCursor(cursor)
+                        .build())
+                        .build(qstr);
+        Results<ScoredDocument> results = index.search(query);
+
+        return results;
+    }
+    
+    /**
+     * タグによるドキュメントの検索
      * @param userModel
      * @param content
      */
-    public static List<Item> searchByTag(User user, String tag) throws Exception {
+    private static Results<ScoredDocument> searchByTag(User user, String tag) throws Exception {
         if(StringUtil.isEmpty(tag)) throw new NullPointerException();
         
+        // クリエ毎のカーソルを使用
+        Cursor cursor = Cursor.newBuilder().setPerResult(false).build();
+        
         String qstr = "tags:\"" + tag + "\"" 
-                + " AND userKeyId=\"" + user.getKey().getId()  + "\"";
+                + " AND userKeyId=\"" + user.getKey().getId()  + "\""
+                + " AND published=\"true\"";
         
         Index index = getDocumentIndex();
         
@@ -152,15 +201,51 @@ public class SearchApiService {
                     .newBuilder()
                     .setLimit(App.USER_PORTFOLIO_ITEM_LIST_LIMIT)
                     .setSortOptions(SortOptions.newBuilder()
-                    .addSortExpression(SortExpression.newBuilder()
-                        .setExpression("published")
-                        .setDefaultValueDate(new Date())
-                        .setDirection(SortDirection.DESCENDING)))
+                        .addSortExpression(SortExpression.newBuilder()
+                            .setExpression("sortOrder")
+                            .setDirection(SortDirection.ASCENDING)))
+                    .setCursor(cursor)
                     .build())
                     .build(qstr);
         Results<ScoredDocument> results = index.search(query);
         
-        return getItemListByResults(results);
+        return results;
+    }
+    
+    /**
+     * タグ検索
+     * @param user
+     * @param tag
+     * @param cursorString
+     * @return
+     * @throws Exception
+     */
+    public static Results<ScoredDocument> searchByTag(User user, String tag, String cursorString) throws Exception {
+        if (StringUtil.isEmpty(cursorString)) return searchByTag(user, tag);
+        
+        Cursor cursor = Cursor.newBuilder().setPerResult(false).build(cursorString);
+        
+        String qstr = "tags:\"" + tag + "\"" 
+                + " AND userKeyId=\"" + user.getKey().getId()  + "\""
+                + " AND published=\"true\"";
+        
+        Index index = getDocumentIndex();
+        
+        Query query = Query.newBuilder()
+                .setOptions(QueryOptions
+                    .newBuilder()
+                    .setLimit(App.USER_PORTFOLIO_ITEM_LIST_LIMIT)
+                    .setSortOptions(SortOptions.newBuilder()
+                        .addSortExpression(SortExpression.newBuilder()
+                            .setExpression("sortOrder")
+                            .setDirection(SortDirection.ASCENDING)))
+                    .setCursor(cursor)
+                    .build())
+                    .build(qstr);
+        Results<ScoredDocument> results = index.search(query);
+        
+        return results;
+        
     }
     
     /**
@@ -169,7 +254,7 @@ public class SearchApiService {
      * @param lang
      * @return
      */
-    private static List<Item> getItemListByResults(Results<ScoredDocument> results) {
+    public static List<Item> getItemListByResults(Results<ScoredDocument> results) {
         // 対象のアイテムリストを取得
         List<Item> itemList = new ArrayList<Item>();
         for (ScoredDocument document : results) {

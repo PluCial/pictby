@@ -6,6 +6,7 @@ import org.slim3.controller.validator.Validators;
 
 import com.pictby.model.User;
 import com.pictby.service.ItemService;
+import com.pictby.service.MemcacheService;
 
 public class ItemAddEntryController extends BaseController {
 
@@ -33,6 +34,8 @@ public class ItemAddEntryController extends BaseController {
         // アイテムの追加
         ItemService.add(user, itemName, detail, tagsinput, fileItem, imageX, imageY, imageWidth, imageHeight);
         
+        // キャッシュクリア
+        MemcacheService.deleteUser(user.getUserId());
         
         return redirect("/" + user.getUserId());
     }

@@ -16,6 +16,13 @@ boolean isOwner = Boolean.valueOf((String) request.getAttribute("isOwner"));
 List<Item> itemList =(List<Item>) request.getAttribute("itemList");
 Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
 String tag = (String) request.getAttribute("tag");
+
+String cursor = null;
+boolean hasNext = false;
+if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") != null) {
+	cursor = (String) request.getAttribute("cursor");
+	hasNext = Boolean.valueOf((String) request.getAttribute("hasNext"));
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -70,7 +77,7 @@ String tag = (String) request.getAttribute("tag");
     	</section>
 
 
-		<!-- item-list start -->
+		<!-- item-list section start -->
 		<%if(itemList.size() > 0) { %>
 		<section class="portfolio portfolio-box">
 			<div class="container">
@@ -90,7 +97,7 @@ String tag = (String) request.getAttribute("tag");
 								for(ItemTag itemTag : user.getItemTagList()) {
 									if(itemTag.getItemCount() > 0) {
 							%>
-							<li><a class="<%=tag.equals(itemTag.getTagName()) ? "active" : "" %>" href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %></a></li>
+							<li><a class="<%=tag.equals(itemTag.getTagName()) ? "active" : "" %>" href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %> (<%=itemTag.getItemCount() %>枚)</a></li>
 							<%	} %>
 							<%} %>
 						</ul>
@@ -98,12 +105,24 @@ String tag = (String) request.getAttribute("tag");
 				</div>
 				
 			</div>
-			<jsp:include page="/user/pub/include-parts/user_item_list.jsp">
-				<jsp:param name="isEditPage" value="false" />
-			</jsp:include>
+			
+			<!-- item-list -->
+			<div class="container">
+				<div class="row item-list-row">
+				
+					<jsp:include page="/user/pub/include-parts/item_list.jsp" />
+				
+					<%if(hasNext) { %>
+					<div class="col-md-12 col-xs-12 text-center listHasNext">
+						<a class="btn btn-default nextLink" href="/<%=user.getUserId() %>/tag/<%=tag %>/tagNext?cursor=<%=cursor %>">もっと見る</a>
+					</div>
+					<%} %>
+					
+				</div>
+			</div><!-- item-list end -->
 		</section>
 		<%} %>
-		<!-- item-list end -->
+		<!-- item-list section end -->
 	
 
 		<!-- Footer start -->
@@ -115,6 +134,9 @@ String tag = (String) request.getAttribute("tag");
 	<!-- javaScript start -->
 	<jsp:include page="/include-parts/html_script.jsp" />
 	<!-- javaScript end -->
+	
+	<!-- waiting dialog -->
+	<script type="text/javascript" src="/plugins/waiting-dialog/waiting-dialog.js"></script>
 	
 </body>
 </html>

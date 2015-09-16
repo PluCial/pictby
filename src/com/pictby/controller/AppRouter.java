@@ -12,10 +12,16 @@ public class AppRouter extends RouterImpl {
 
 	public AppRouter() {
 
+	    // 検索結果画面
         addRouting(
                 "/kws",
                 "/kws");
+        
+        addRouting(
+            "/kwsnt",
+            "/kwsNext");
 
+        // 検索ダイアログボックス
         addRouting(
                 "/kwsb",
                 "/kwsb");
@@ -23,6 +29,17 @@ public class AppRouter extends RouterImpl {
         addRouting(
                 "/user/userTags/{userId}/{token}",
                 "/user/secure/userTags?userId={userId}");
+        
+        // 埋め込みタグ
+        addRouting(
+                "/embed/{itemId}",
+                "/embed?itemId={itemId}");
+        addRouting(
+            "/emjs",
+            "/embedJs");
+        addRouting(
+            "/gec",
+            "/getEmbedCode");
 	    
 	    setUser();
 	}
@@ -42,6 +59,10 @@ public class AppRouter extends RouterImpl {
             "/{userId}/itemList",
             "/user/pub/itemList?userId={userId}");
         
+        addRouting(
+            "/{userId}/itemListNext",
+            "/user/pub/itemListNext?userId={userId}");
+        
         // ITEM
         addRouting(
             "/{userId}/item/{itemId}",
@@ -51,6 +72,10 @@ public class AppRouter extends RouterImpl {
         addRouting(
             "/{userId}/tag/{tag}",
             "/user/pub/tag?userId={userId}&tag={tag}");
+        
+        addRouting(
+            "/{userId}/tag/{tag}/tagNext",
+            "/user/pub/tagNext?userId={userId}&tag={tag}");
 	}
 
 }

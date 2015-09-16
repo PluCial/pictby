@@ -6,6 +6,7 @@ import org.slim3.util.StringUtil;
 import com.pictby.model.Item;
 import com.pictby.model.User;
 import com.pictby.service.ItemService;
+import com.pictby.service.MemcacheService;
 
 public class TagDeleteEntryController extends BaseController {
     
@@ -34,6 +35,9 @@ public class TagDeleteEntryController extends BaseController {
         // タグの削除処理
         ItemService.itemDeleteTag(user, item, tag.trim());
         
+        // キャッシュクリア
+        MemcacheService.deleteUser(user.getUserId());
+        MemcacheService.deleteItem(item.getKey().getName());
         
         requestScope("status", "OK");
         return forward("/user/ajax_response.jsp");

@@ -6,6 +6,8 @@ import java.util.List;
 import org.slim3.controller.Navigation;
 import org.slim3.util.StringUtil;
 
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
 import com.pictby.exception.NoContentsException;
 import com.pictby.model.Item;
 import com.pictby.model.User;
@@ -25,8 +27,20 @@ public class KwsController extends BaseController {
         String keyword = asString("keyword");
         if(StringUtil.isEmpty(keyword)) throw new NoContentsException();
 
-        List<Item> itemList = SearchApiService.searchByKeyword(keyword);
-        requestScope("itemList", itemList != null ? itemList : new ArrayList<Item>());
+        Results<ScoredDocument> results = SearchApiService.searchByKeyword(keyword, null);
+        List<Item> itemList = SearchApiService.getItemListByResults(results);
+        
+        if(itemList == null) {
+            requestScope("itemList", new ArrayList<Item>());
+            return forward("keyword.jsp");
+        }
+        
+        requestScope("itemList", itemList);
+        requestScope("hasNext", String.valueOf(results.getCursor() != null));
+        
+        if(results.getCursor() != null) {
+            requestScope("cursor", results.getCursor().toWebSafeString());
+        }
         
         return forward("keyword.jsp");
     }

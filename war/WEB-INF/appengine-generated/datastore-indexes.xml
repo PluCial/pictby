@@ -2,7 +2,7 @@
 
 <datastore-indexes autoGenerate="false">
     
-    <!-- Used 2 times in query history -->
+    <!-- Used 1 time in query history -->
     <datastore-index kind="User" ancestor="false" source="auto">
         <property name="invalid" direction="asc"/>
         <property name="createDate" direction="desc"/>
@@ -16,6 +16,13 @@
 
     <!-- Used 1 time in query history -->
     <datastore-index kind="Item" ancestor="false" source="auto">
+        <property name="published" direction="asc"/>
+        <property name="sortOrder" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Item" ancestor="false" source="auto">
+        <property name="published" direction="asc"/>
         <property name="userRef" direction="asc"/>
         <property name="sortOrder" direction="asc"/>
     </datastore-index>

@@ -48,13 +48,12 @@ public class TextUserResourcesService  extends TextResourcesService{
     
     /**
      * Userリソースの更新
-     * @param userId
      * @param resourcesKey
      * @param content
      * @return
      * @throws NoContentsException
      */
-    public static UserTextRes update(String userId, String resourcesKey, String content) throws NoContentsException {
+    public static UserTextRes update(String resourcesKey, String content) throws NoContentsException {
         UserTextRes model = getResources(resourcesKey);
         if(model == null) throw new NoContentsException("更新するコンテンツはありません");
 

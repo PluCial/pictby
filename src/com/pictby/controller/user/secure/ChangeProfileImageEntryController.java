@@ -6,6 +6,7 @@ import org.slim3.controller.validator.Validators;
 
 import com.pictby.model.User;
 import com.pictby.service.GcsUserResourcesService;
+import com.pictby.service.MemcacheService;
 
 public class ChangeProfileImageEntryController extends BaseController {
 
@@ -32,6 +33,9 @@ public class ChangeProfileImageEntryController extends BaseController {
             String resourcesKey = asString("resourcesKey");
             GcsUserResourcesService.updateUserIconImage(user, resourcesKey, fileItem, imageX, imageY, imageX + imageWidth, imageY + imageHeight);
         }
+        
+        // キャッシュクリア
+        MemcacheService.deleteUser(user.getUserId());
         
         
         return redirect("/" + user.getUserId());

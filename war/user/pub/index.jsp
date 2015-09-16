@@ -15,6 +15,13 @@ User user = (User) request.getAttribute("user");
 boolean isOwner = Boolean.valueOf((String) request.getAttribute("isOwner"));
 List<Item> itemList =(List<Item>) request.getAttribute("itemList");
 Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
+
+String cursor = null;
+boolean hasNext = false;
+if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") != null) {
+	cursor = (String) request.getAttribute("cursor");
+	hasNext = Boolean.valueOf((String) request.getAttribute("hasNext"));
+}
 %>
 <!DOCTYPE html>
 <html>
@@ -120,14 +127,14 @@ Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
     	</section>
 
 
-		<!-- item-list start -->
+		<!-- item-list section start -->
 		<%if(isOwner || itemList.size() > 0) { %>
 		<section class="portfolio portfolio-box">
 			<div class="container">
 				
 				<div class="row">
 					<div class="col-md-12 heading text-center">
-						<h2 class="title3">Portfolio
+						<h2 class="title3">Portfolio <span style="font-size: 20px;">(<%=user.getItemCount() %>枚)</span>
 						</h2>
 					</div>
 				</div>
@@ -142,6 +149,7 @@ Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
 				</div>
 				<%} %>
 				
+				<!-- tag-list -->
 				<%if(itemList.size() > 0) { %>
 				<div class="row text-center">
 					<div class="isotope-nav" data-isotope-nav="isotope">
@@ -151,22 +159,33 @@ Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
 								for(ItemTag itemTag : user.getItemTagList()) {
 									if(itemTag.getItemCount() > 0) {
 							%>
-							<li><a href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %></a></li>
+							<li><a href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %> (<%=itemTag.getItemCount() %>枚)</a></li>
 							<%} %>
 							<%} %>
 						</ul>
 					</div>
 				</div>
 				<%} %>
+			</div><!-- tag-list end -->
+			
+			<!-- item-list -->
+			<div class="container">
+				<div class="row item-list-row <%=isOwner ? "connectedSortable" :""  %>">
 				
-			</div>
-			<jsp:include page="/user/pub/include-parts/user_item_list.jsp">
-				<jsp:param name="isEditPage" value="true" />
-			</jsp:include>
-		</section>
+					<jsp:include page="/user/pub/include-parts/item_list.jsp" />
+				
+					<%if(hasNext) { %>
+					<div class="col-md-12 col-xs-12 text-center listHasNext">
+						<a class="btn btn-default nextLink" href="/<%=user.getUserId() %>/itemListNext?cursor=<%=cursor %>">もっと見る</a>
+					</div>
+					<%} %>
+					
+				</div>
+			</div><!-- item-list end -->
+			
+		</section><!-- item-list section end -->
 		<%} %>
-		<!-- item-list end -->
-	
+		
 
 		<!-- Footer start -->
 		<jsp:include page="/include-parts/main_footer.jsp" />
@@ -180,13 +199,14 @@ Map<String,SocialLink> socialLinkMap = user.getSocialLinkMap();
 	
 	<!-- dialog_modal start -->
 	<%if(isOwner) { %>
-	<jsp:include page="/user/dialog_modal.jsp">
+	<jsp:include page="/include-parts/dialog_modal.jsp">
 		<jsp:param name="modelId" value="textResourcesModal" />
 	</jsp:include>
-	<!-- waiting dialog -->
-	<script type="text/javascript" src="/plugins/waiting-dialog/waiting-dialog.js"></script>
 	<%} %>
 	<!-- dialog_modal end -->
+	
+	<!-- waiting dialog -->
+	<script type="text/javascript" src="/plugins/waiting-dialog/waiting-dialog.js"></script>
 	
 </body>
 </html>

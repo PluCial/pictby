@@ -418,3 +418,13 @@ i.edit-mode {
 .author .team-social {
 	margin-top: 30px;
 }
+
+/* read more
+================================================== */
+.item-list-row div.listHasNext {
+	    display: none;
+}
+
+.item-list-row div.listHasNext:last-child {
+	    display: block;
+}

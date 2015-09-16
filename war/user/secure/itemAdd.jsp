@@ -258,7 +258,7 @@ font-size: 75%;
 								</div>
 							
  								<div class="widget hidden-sm">
-									<h4><i class="fa fa-user"></i> Author</h4>
+									<h4><i class="fa fa-user"></i> Creator</h4>
 									<div class="author-img">
 										<img class="pull-left" src="<%=user.getIconImageResources() != null ? user.getIconImageUrl() + "=s100" : "/user/pub/images/icon-user-default.png" %>">
 										<h4 class=""><a href="/<%=user.getUserId() %>"><%=user.getName() %></a></h4>

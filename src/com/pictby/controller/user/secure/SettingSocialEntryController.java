@@ -9,6 +9,7 @@ import org.slim3.util.StringUtil;
 import com.pictby.enums.Social;
 import com.pictby.model.SocialLink;
 import com.pictby.model.User;
+import com.pictby.service.MemcacheService;
 import com.pictby.service.UserService;
 
 public class SettingSocialEntryController extends BaseController {
@@ -27,6 +28,9 @@ public class SettingSocialEntryController extends BaseController {
         }
         
         UserService.settingSocial(user, socialLinkList);
+        
+        // キャッシュクリア
+        MemcacheService.deleteUser(user.getUserId());
         
         return redirect("/" + user.getUserId());
     }

@@ -51,15 +51,14 @@ public class TextItemResourcesService  extends TextResourcesService{
         return model;
     }
     
-    /**
-     * リソースの更新
-     * @param userId
-     * @param resourcesKey
-     * @param content
-     * @return
-     * @throws NoContentsException
-     */
-    public static ItemTextRes update(String itemId, String resourcesKey, String content) throws NoContentsException {
+   /**
+    * リソースの更新
+    * @param resourcesKey
+    * @param content
+    * @return
+    * @throws NoContentsException
+    */
+    public static ItemTextRes update(String resourcesKey, String content) throws NoContentsException {
         ItemTextRes model = getResources(resourcesKey);
         if(model == null) throw new NoContentsException("更新するコンテンツはありません");
 

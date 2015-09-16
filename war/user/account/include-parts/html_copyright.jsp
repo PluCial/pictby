@@ -6,7 +6,7 @@
         All rights reserved
       	</div>
       	
-      	<jsp:include page="/user/dialog_modal.jsp">
+      	<jsp:include page="/include-parts/dialog_modal.jsp">
 			<jsp:param name="modelId" value="preparingModal" />
 		</jsp:include>
 

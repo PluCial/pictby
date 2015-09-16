@@ -7,6 +7,7 @@ import org.slim3.util.StringUtil;
 import com.pictby.model.Item;
 import com.pictby.model.User;
 import com.pictby.service.ItemService;
+import com.pictby.service.MemcacheService;
 import com.pictby.service.SearchApiService;
 import com.pictby.service.TextItemResourcesService;
 import com.pictby.service.TextUserResourcesService;
@@ -38,17 +39,22 @@ public class EditTextResourcesEntryController extends BaseController {
 
         if(!StringUtil.isEmpty(itemId)) {
             
-            TextItemResourcesService.update(itemId, resourcesKey, content);
+            TextItemResourcesService.update(resourcesKey, content);
             
+            // キャッシュクリアしてから再取得
+            MemcacheService.deleteItem(itemId);
             Item item = ItemService.getByKey(itemId);
             
             // Documentを更新
             SearchApiService.putDocument(user, item, item.getOriginalImageResources(), item.getName(), item.getDetail(), item.getTagsList());
             
         }else {
-            TextUserResourcesService.update(user.getUserId(), resourcesKey, content);
+            TextUserResourcesService.update(resourcesKey, content);
             // ログインセッションのUser情報を更新
             user.setTextResources(TextUserResourcesService.getResourcesMap(user));
+            
+            // キャッシュクリア
+            MemcacheService.deleteUser(user.getUserId());
         }
         
         requestScope("status", "OK");
