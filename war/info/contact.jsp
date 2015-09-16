@@ -2,6 +2,11 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <%@taglib prefix="f" uri="http://www.slim3.org/functions"%>
+<%@ page import="org.slim3.controller.validator.Errors" %>
+<%
+Errors errors =(Errors) request.getAttribute("errors");
+String message =(String) request.getAttribute("message");
+%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,32 +41,38 @@
 
 			<div class="row">
 	    		<div class="col-md-7">
-	    			<form id="contact-form" action="contact-form.php" method="post" role="form">
+	    			<form id="contact-form" action="/info/contactEntry" method="post" role="form">
 						<div class="row">
 							<div class="col-md-4">
-								<div class="form-group">
-									<label>Name</label>
-								<input class="form-control" name="name" id="name" placeholder="" type="text" required>
+								<div class="form-group ${f:errorClass('name','has-error')}">
+									<%if (errors.containsKey("name")){ %>
+									<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> ${errors.name}</label>
+									<%} %>
+									<input class="form-control" ${f:text("name")} placeholder="名前" type="text" required>
 								</div>
 							</div>
 							<div class="col-md-4">
-								<div class="form-group">
-									<label>Email</label>
-									<input class="form-control" name="email" id="email" 
-									placeholder="" type="email" required>
+								<div class="form-group ${f:errorClass('name','has-error')}">
+									<%if (errors.containsKey("email")){ %>
+									<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> ${errors.email}</label>
+									<%} %>
+									<input class="form-control" ${f:text("email")} placeholder="メール" type="email" required>
 								</div>
 							</div>
 							<div class="col-md-4">
-								<div class="form-group">
-									<label>Subject</label>
-									<input class="form-control" name="subject" id="subject" 
-									placeholder="" required>
+								<div class="form-group ${f:errorClass('subject','has-error')}">
+									<%if (errors.containsKey("subject")){ %>
+									<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> ${errors.subject}</label>
+									<%} %>
+									<input class="form-control" ${f:text("subject")} placeholder="件名" required>
 								</div>
 							</div>
 						</div>
-						<div class="form-group">
-							<label>Message</label>
-							<textarea class="form-control" name="message" id="message" placeholder="" rows="10" required></textarea>
+						<div class="form-group ${f:errorClass('message','has-error')}">
+							<%if (errors.containsKey("message")){ %>
+							<label class="control-label" for="inputError"><i class="fa fa-times-circle-o"></i> ${errors.message}</label>
+							<%} %>
+							<textarea class="form-control" name="message" id="message" placeholder="本文" rows="10" required><%=message == null ? "" : message %></textarea>
 						</div>
 						<div class="text-right"><br>
 							<button class="btn btn-primary solid blank" type="submit">Send Message</button> 

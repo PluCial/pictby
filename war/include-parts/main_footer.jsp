@@ -26,10 +26,7 @@
 								href="/preparing.html">よくある質問</a>
 						</li>
 						<li>
-							<a data-toggle="modal" 
-								data-backdrop="static"
-								data-target="#preparingModal" 
-								href="/preparing.html">お問い合わせ</a>
+							<a href="/info/contact">お問い合わせ</a>
 						</li>
 					</ul>
 				</div>
@@ -51,9 +48,9 @@
 		
 	</section>
 	
-	<jsp:include page="/user/dialog_modal.jsp">
+	<jsp:include page="/include-parts/dialog_modal.jsp">
 		<jsp:param name="modelId" value="preparingModal" />
 	</jsp:include>
-	<jsp:include page="/user/dialog_modal.jsp">
+	<jsp:include page="/include-parts/dialog_modal.jsp">
 		<jsp:param name="modelId" value="searchModal" />
 	</jsp:include>
