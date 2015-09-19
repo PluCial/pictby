@@ -121,16 +121,12 @@ public class EMailService {
             boolean isLocal) throws UnsupportedEncodingException, MessagingException {
         
         // タイトル
-        String subject = "[" + App.APP_DISPLAY_NAME + "] へお問い合わせ完了のご連絡";
+        String subject = "[" + App.APP_DISPLAY_NAME + "] にお問い合わせが届きました！";
         
         // メッセージ
         StringBuilder message = new StringBuilder();
-        message.append(recipientName + " 様");
+        message.append(recipientName + " 様からお問い合わせがありました！");
         message.append("\n\n");
-        message.append("このたびは、" + App.APP_DISPLAY_NAME + "にお問い合わせいただき、誠にありがとうございます。");
-        message.append("\n\n");
-        message.append("以下の内容でお問い合わせを承りました。");
-        message.append("\n");
         message.append("◆ お問い合わせ内容");
         message.append("\n");
         message.append("-------------------------------------------------");
@@ -144,11 +140,10 @@ public class EMailService {
         message.append("◇ 本文 --- \n" + recipientMessage);
         message.append("\n");
         message.append("-------------------------------------------------");
-        message.append("\n\n");
-        message.append("今後とも" + App.APP_DISPLAY_NAME + "をどうぞよろしくお願いいたします。");
+        message.append("\n");
         
         if(!isLocal) {
-            send(recipientAddress, recipientName, subject, message.toString());
+            send(App.EMAIL_CONTACT_TO_ADDRESS, recipientName, subject, message.toString());
             
         }else {
             System.out.println(message.toString());

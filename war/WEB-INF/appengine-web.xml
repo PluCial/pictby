@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
-	<application>pictby-test</application>
+	<application>pictby-product</application>
 	<version>1</version>
 	
 	<precompilation-enabled>true</precompilation-enabled>
@@ -17,4 +17,5 @@
 	</system-properties>
 	<sessions-enabled>true</sessions-enabled>
 	<threadsafe>true</threadsafe>
+	<ssl-enabled>true</ssl-enabled>
 </appengine-web-app>

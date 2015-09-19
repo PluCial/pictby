@@ -6,8 +6,11 @@ public class App {
     /** アプリケーション名 */
     public static final String APP_DISPLAY_NAME = "Pictby";
     
-    /** メール送信元アドレス */
+    /** メール送信元アドレス(ユーザー向け) */
     public static final String EMAIL_FROM_ADDRESS = "info@pictby.com";
+    
+    /** メール送信元アドレス(お問い合わせ送信先) */
+    public static final String EMAIL_CONTACT_TO_ADDRESS = "admin@pictby.com";
     
     // ---------------------------------------------------------------------------
     // GOOGLE PROJECT 定数

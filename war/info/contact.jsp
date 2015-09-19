@@ -30,16 +30,6 @@ String message =(String) request.getAttribute("message");
 		<div class="container">
 			
 			<div class="row">
-				<!-- Map start here -->
-				<div id="map-wrapper" class="no-padding">
-					<div class="map" id="map"></div>
-				</div><!--/ Map end here -->	
-
-			</div><!-- Content row  end -->
-
-			<div class="gap-40"></div>
-
-			<div class="row">
 	    		<div class="col-md-7">
 	    			<form id="contact-form" action="/info/contactEntry" method="post" role="form">
 						<div class="row">
@@ -82,12 +72,8 @@ String message =(String) request.getAttribute("message");
 	    		<div class="col-md-5">
 	    			<div class="contact-info">
 		    			<h3>Contact Details</h3>
-			    		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse eget erat magna. Pellentesque justo ante</p>
-			    		<br>
-			    		<p><i class="fa fa-home info"></i>  1102 Saint Marys, Junction City, KS </p>
-						<p><i class="fa fa-phone info"></i>  +(785) 238-4131 </p>
-						<p><i class="fa fa-envelope-o info"></i>  info@bizcraft.com</p>
-						<p><i class="fa fa-globe info"></i>  www.bizcraft.com</p>
+			    		<p>サービスへの質問や不具合、バグ報告など、左のフォームからなんでも気軽にお問い合わせください。不都合によりフォームが利用できない場合は以下のメールアドレスに直接メールを送信していただいても構いません。</p>
+						<p><i class="fa fa-envelope-o info"></i> info@pictby.com</p>
     				</div>
 	    		</div>
 	    	</div>
@@ -105,49 +91,6 @@ String message =(String) request.getAttribute("message");
 	
 	<!-- javaScript start -->
 	<jsp:include page="/include-parts/html_script.jsp" />
-	<script type="text/javascript">
-	$("#map").gmap3({
-        map:{
-            options:{
-               center:[-37.8152065,144.963937],
-               zoom: 14,
-               scrollwheel: false
-            }
-        },
-        marker:{
-          values:[
-            {address:"Corner Swanston St & Flinders St, Melbourne VIC 3000, Australia", data:" Welcome To bizCraft ! ! ", 
-             options:{icon: "http://themewinter.com/html/marker.png"}}
-          ],
-          options:{
-            draggable: false
-          },
-          events:{
-            mouseover: function(marker, event, context){
-              var map = $(this).gmap3("get"),
-                infowindow = $(this).gmap3({get:{name:"infowindow"}});
-              if (infowindow){
-                infowindow.open(map, marker);
-                infowindow.setContent(context.data);
-              } else {
-                $(this).gmap3({
-                  infowindow:{
-                    anchor:marker, 
-                    options:{content: context.data}
-                  }
-                });
-              }
-            },
-            mouseout: function(){
-              var infowindow = $(this).gmap3({get:{name:"infowindow"}});
-              if (infowindow){
-                infowindow.close();
-              }
-            }
-          }
-        }
-      });
-	</script>
 	<!-- javaScript end -->
 	
 </body>
