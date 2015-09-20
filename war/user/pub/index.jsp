@@ -84,7 +84,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 										Social social = socialLink.getSocial();
 										String baseUrl = StringUtil.isEmpty(social.getBaseUrl()) ? "" : social.getBaseUrl();
 									%>
-									<a class="<%=social.getLinkStyleClass() %>" href="<%=baseUrl + socialLink.getUrlPath() %>"><i class="<%=social.getIconStyleClass() %>"></i></a>
+									<a class="<%=social.getLinkStyleClass() %>" href="<%=baseUrl + socialLink.getUrlPath() %>" target="_blank"><i class="<%=social.getIconStyleClass() %>"></i></a>
 									<%} %>
 										
 									<%if(isOwner && socialLinkMap.size() > 0) { %>
