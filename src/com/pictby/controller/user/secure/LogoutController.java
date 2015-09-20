@@ -11,6 +11,6 @@ public class LogoutController extends BaseController {
         // セッション削除
         removeSessionScope("loginUser");
 
-        return redirect("/user/account/login");
+        return redirect("/");
     }
 }

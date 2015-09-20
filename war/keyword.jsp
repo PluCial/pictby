@@ -63,6 +63,10 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 					<%} %>
 				</div>
 			</div>
+			<%}else{ %>
+			<div class="container">
+			   検索結果が見つかりませんでした。
+			</div>
 			<%} %>
 		</section>
 		<!-- item-list end -->
