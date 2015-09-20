@@ -40,6 +40,11 @@ public class AppRouter extends RouterImpl {
         addRouting(
             "/gec",
             "/getEmbedCode");
+        
+        // TODO あとで削除
+        addRouting(
+            "/admin/deleteTextSearch",
+            "/admin/deleteTextSearch");
 	    
 	    setUser();
 	}

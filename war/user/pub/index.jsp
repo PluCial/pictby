@@ -55,7 +55,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 							</div>
 							<div class="author-bio">
 								<h3>
-									<span id="<%=user.getNameResourcesKey() %>"><%=user.getName() %></span>
+									<span class="text-transform-clear" id="<%=user.getNameResourcesKey() %>"><%=user.getName() %></span>
 									<%if(isOwner) { %>
 									<a data-toggle="modal" 
 										data-backdrop="static"
@@ -159,7 +159,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 								for(ItemTag itemTag : user.getItemTagList()) {
 									if(itemTag.getItemCount() > 0) {
 							%>
-							<li><a href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %> (<%=itemTag.getItemCount() %>枚)</a></li>
+							<li><a href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=Utils.htmlEscape(itemTag.getTagName()) %> (<%=itemTag.getItemCount() %>枚)</a></li>
 							<%} %>
 							<%} %>
 						</ul>

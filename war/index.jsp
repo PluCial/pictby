@@ -85,7 +85,7 @@ List<User> newUserList =(List<User>) request.getAttribute("newUserList");
 					<%for(Item item: newItemList) { %>
 					<div class="col-md-3 col-xs-12 item-box wow fadeInUp animated">
 						<figure class="" data-wow-duration="500ms" data-wow-delay="0ms">
-							<div class="img-wrapper" style="background-image: url(<%=item.getOriginalImageUrl() %>)">
+							<div class="img-wrapper" style="background-image: url(<%=item.getOriginalImageUrl() %>=s500)">
 								<a href="/<%=item.getUserId() %>/item/<%=item.getKey().getName() %>"></a>
 							</div>
 						</figure>
@@ -122,7 +122,7 @@ List<User> newUserList =(List<User>) request.getAttribute("newUserList");
 							<span class="img-bottom"></span>
 						</div>
 						<div class="team-content">
-							<h3 class="text-ellipsis"><a href="/<%=user.getUserId() %>"><%=user.getName() %></a></h3>
+							<h3 class="text-ellipsis"><a class="text-transform-clear" href="/<%=user.getUserId() %>"><%=user.getName() %></a></h3>
 							<p class="text-ellipsis"><%=user.getCatchCopy() %></p>
 							<div class="team-social">
 								<%for(Map.Entry<String,SocialLink> linkEntry: socialLinkMap.entrySet()) {

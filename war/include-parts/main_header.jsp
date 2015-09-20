@@ -33,7 +33,7 @@ boolean isLogged = Boolean.valueOf((String) request.getAttribute("isLogged"));
 				<nav class="collapse navbar-collapse clearfix" role="navigation">
 					<ul class="nav navbar-nav navbar-right">
 						<%if(isLogged) { %>
-						<li><a href="/<%=loginUser.getUserId() %>"><i class="fa fa-user"></i> <%=loginUser.getName() %></a></li>
+						<li><a class="text-transform-clear" href="/<%=loginUser.getUserId() %>"><i class="fa fa-user"></i> <%=loginUser.getName() %></a></li>
 						<li><a href="/user/secure/logout"><i class="fa fa-sign-out"></i> ログアウト</a></li>
 						<%}else { %>
 	                    <li><a href="/user/account/register"><i class="fa fa-plus"></i> クリエイター登録</a></li>

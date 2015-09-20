@@ -91,7 +91,6 @@ public class GcsItemResourcesService extends GcsResourcesService {
      * @return
      */
     private static List<ItemGcsRes> getResourcesList(Item item) {
-        // TODO: キャッシュ対応
         List<ItemGcsRes> list = dao.getResourcesList(item);
         
         return list;

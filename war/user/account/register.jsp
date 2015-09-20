@@ -49,7 +49,7 @@ Errors errors =(Errors) request.getAttribute("errors");
 					</div>
 					<div class="checkbox icheck">
 						<label>
-							<input type="checkbox" ${f:checkbox("agreeTerms")}> <a target="_blank" href="/info/agreement">利用規約</a>及び<a target="_blank" href="/info/privacy">利用規約</a>に同意します。 
+							<input type="checkbox" ${f:checkbox("agreeTerms")}> <a target="_blank" href="/info/agreement">利用規約</a>及び<a target="_blank" href="/info/privacy">プライバシーポリシー</a>に同意します。 
 						</label>
 					</div>
 					<%if (errors.containsKey("agreeTerms")){ %>

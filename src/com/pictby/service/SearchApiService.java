@@ -326,5 +326,50 @@ public class SearchApiService {
         
         index.delete(document.getId());
     }
+    
+    /**
+     * タグ検索
+     * @param user
+     * @param tag
+     * @param cursorString
+     * @return
+     * @throws Exception
+     */
+    private static Results<ScoredDocument> getPublishedAll() throws Exception {
+        
+        String qstr = "published=\"true\"";
+        
+        Index index = getDocumentIndex();
+        
+        Query query = Query.newBuilder()
+                .setOptions(QueryOptions
+                    .newBuilder()
+                    .setLimit(App.USER_PORTFOLIO_ITEM_LIST_LIMIT)
+                    .setSortOptions(SortOptions.newBuilder()
+                        .addSortExpression(SortExpression.newBuilder()
+                            .setExpression("sortOrder")
+                            .setDirection(SortDirection.ASCENDING)))
+                    .build())
+                    .build(qstr);
+        Results<ScoredDocument> results = index.search(query);
+        
+        return results;
+
+    }
+
+    /**
+     * 全削除
+     * TODO: あとで消す
+     * @throws Exception
+     */
+    public static void deleteAll() throws Exception {
+
+        Index index = getDocumentIndex();
+        Results<ScoredDocument>  results = getPublishedAll();
+
+        for (ScoredDocument document : results) {
+            index.delete(document.getId());
+        }
+    }
 
 }

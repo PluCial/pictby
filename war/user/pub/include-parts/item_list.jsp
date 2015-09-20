@@ -19,7 +19,7 @@ List<Item> itemList =(List<Item>) request.getAttribute("itemList");
 					data-order="<%=item.getSortOrder() %>" 
 					data-sort-max-order="<%=user == null ? "": user.getItemCount() %>">
 						<figure class="" data-wow-duration="500ms" data-wow-delay="0ms">
-							<div class="img-wrapper" style="background-image: url(<%=item.getOriginalImageUrl() %>)">
+							<div class="img-wrapper" style="background-image: url(<%=item.getOriginalImageUrl() %>=s400)">
 								<a href="/<%=item.getUserId() %>/item/<%=item.getKey().getName() %>"></a>
 							</div>
 							<figcaption>

@@ -40,12 +40,6 @@ public class AddAccountEntryController extends BaseController {
         String userId = asString("userId");
         String catchCopy = asString("catchCopy");
         String detail = asString("detail");
-        String langString = asString("lang");
-        
-        // TODO: 国際化時に対応
-        if(StringUtil.isEmpty(langString)) {
-            langString = "ja";
-        }
         
         // ------------------------------------------
         // userId重複チェック

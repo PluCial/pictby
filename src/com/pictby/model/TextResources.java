@@ -47,7 +47,7 @@ public class TextResources implements Serializable {
     private Date updateDate;
     
     public String getContentString() {
-        return content == null ? null : content.getValue();
+        return content == null ? null : Utils.htmlEscape(content.getValue());
     }
     
     /**

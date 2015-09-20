@@ -406,6 +406,10 @@ i.edit-mode {
     margin-top: 0;
 }
 
+.text-transform-clear {
+	text-transform: none !important;
+}
+
 #user-about .author .author-img img {
 	margin-top: 0;
 }

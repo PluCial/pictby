@@ -55,8 +55,6 @@ public class BasicAuthFilter implements Filter {
     }
     
     public void destroy() {
-        // TODO 自動生成されたメソッド・スタブ
-
     }
     
     /**

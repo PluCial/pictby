@@ -50,7 +50,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 								<img src="<%=user.getIconImageResources() != null ? user.getIconImageUrl() + "=s100" : "/user/pub/images/icon-user-default.png" %>">
 							</div>
 							<div class="author-bio">
-								<h3><a href="/<%=user.getUserId() %>"><%=user.getName() %></a></h3>
+								<h3><a class="text-transform-clear" href="/<%=user.getUserId() %>"><%=user.getName() %></a></h3>
 								<p><span id="<%=user.getCatchCopyResourcesKey() %>"><%=user.getCatchCopy() %></span></p>
 									
 								<div class="team-social">

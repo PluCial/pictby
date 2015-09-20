@@ -126,7 +126,6 @@ public class GcsUserResourcesService extends GcsResourcesService {
      * @return
      */
     private static List<UserGcsRes> getResourcesList(User user) {
-        // TODO: キャッシュ対応
         List<UserGcsRes> list = dao.getResourcesList(user);
         
         return list;

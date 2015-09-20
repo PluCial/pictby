@@ -177,7 +177,7 @@ if(item.getTagsList() != null && item.getTagsList().size() > 0) {
 								<h4><i class="fa fa-user"></i> Creator</h4>
 								<div class="author-img">
 									<img class="pull-left" src="<%=user.getIconImageResources() != null ? user.getIconImageUrl() + "=s100" : "/user/pub/images/icon-user-default.png" %>">
-									<h4 class=""><a href="/<%=user.getUserId() %>"><%=user.getName() %></a></h4>
+									<h4 class=""><a class="text-transform-clear" href="/<%=user.getUserId() %>"><%=user.getName() %></a></h4>
 									<p><%=user.getCatchCopy() %></p>
 								</div>
 							</div>

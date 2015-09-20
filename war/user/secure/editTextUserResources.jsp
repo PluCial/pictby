@@ -26,7 +26,7 @@ UserTextRes textResources = (UserTextRes) request.getAttribute("textResources");
 		<h4 class="modal-title"><i class="fa fa-pencil-square-o"></i> <%=textResources != null ? textResources.getRole().getName() : "" %></h4>
 	</div><!-- /modal-header -->
 	
-    <form id="resources-form">
+    <form id="resources-form" action="#">
 		<div class="modal-body">
 			
 			<%if(textResources != null) { %>
@@ -39,7 +39,7 @@ UserTextRes textResources = (UserTextRes) request.getAttribute("textResources");
 		</div><!-- /modal-body -->
 		<div class="modal-footer">
 			<button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
-			<button id="text-resources-submit-button" type="button" class="btn btn-info">変更</button>
+			<input id="text-resources-submit-button" type="submit" value="変更" class="btn btn-info" />
 		</div>	<!-- /modal-footer -->
 		<input type="hidden" name="userId" value="<%=user.getUserId() %>" />
 		<input type="hidden" name="itemId" value="<%=itemId == null ? "" : itemId %>" />
