@@ -24,8 +24,15 @@ String modelId = (String)request.getParameter("modelId");
 			$('#textResourcesModal').on('loaded.bs.modal', function () {
 				var submitButton = $(this).find('#text-resources-submit-button');
 				var submitform = $(this).find('#resources-form');
+				var submitInput = $(this).find('#resources-form input');
 				var resourcesKey = submitform.find('[name=resourcesKey]').val();
 	  		
+				// inputでenterされたときの挙動をキャンセル
+				submitInput.keypress(function(e) {
+					if ( e.which != 13 ) return;
+					return false;
+				});
+				
 				// submit
 				submitButton.bind('click', function(e) {
 	  			

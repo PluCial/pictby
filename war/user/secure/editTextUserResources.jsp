@@ -26,7 +26,7 @@ UserTextRes textResources = (UserTextRes) request.getAttribute("textResources");
 		<h4 class="modal-title"><i class="fa fa-pencil-square-o"></i> <%=textResources != null ? textResources.getRole().getName() : "" %></h4>
 	</div><!-- /modal-header -->
 	
-    <form id="resources-form" action="#">
+    <form id="resources-form">
 		<div class="modal-body">
 			
 			<%if(textResources != null) { %>
