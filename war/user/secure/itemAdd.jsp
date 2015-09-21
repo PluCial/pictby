@@ -339,6 +339,13 @@ font-size: 75%;
 				source : bloodHound.ttAdapter()
 			}
 		});
+		
+		// 2回目以降のsubmiを禁止します。
+	 	var submitflg = false;
+		$("form").submit(function() {
+			if(submitflg) return false;
+			submitflg = true;
+		});
 	});
 	</script>
 	<!-- javaScript end -->
