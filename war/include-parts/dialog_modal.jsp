@@ -30,6 +30,7 @@ String modelId = (String)request.getParameter("modelId");
 				// inputでenterされたときの挙動をキャンセル
 				submitInput.keypress(function(e) {
 					if ( e.which != 13 ) return;
+					submitButton.trigger('click');
 					return false;
 				});
 				
