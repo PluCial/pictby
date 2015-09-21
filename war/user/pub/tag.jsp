@@ -97,7 +97,7 @@ if (request.getAttribute("cursor") != null && request.getAttribute("hasNext") !=
 								for(ItemTag itemTag : user.getItemTagList()) {
 									if(itemTag.getItemCount() > 0) {
 							%>
-							<li><a class="<%=tag.equals(itemTag.getTagName()) ? "active" : "" %>" href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=itemTag.getTagName() %> (<%=itemTag.getItemCount() %>枚)</a></li>
+							<li><a class="<%=tag.equals(itemTag.getTagName()) ? "active" : "" %>" href="/<%=user.getUserId() %>/tag/<%=itemTag.getTagName() %>"><%=Utils.htmlEscape(itemTag.getTagName()) %> (<%=itemTag.getItemCount() %>枚)</a></li>
 							<%	} %>
 							<%} %>
 						</ul>
