@@ -29,6 +29,8 @@ public class App {
     
     public static final int KEYWORD_SEARCH_ITEM_LIST_LIMIT = 9;
     
+    public static final int NEW_PORTFOLIO_ITEM_LIST_LIMIT = 9;
+    
     // ---------------------------------------------------
     // 埋め込みタグ
     // ---------------------------------------------------

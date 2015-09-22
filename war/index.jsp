@@ -94,7 +94,13 @@ List<User> newUserList =(List<User>) request.getAttribute("newUserList");
 					
 				</div><!-- Isotope content end -->
 			</div><!-- Content row end -->
-		</div><!-- Container end -->
+			<div class="row">
+				<div class="col-md-12" style="margin-bottom:40px">
+					<a href="/nitem" class="navbar-link pull-right">もっと見る ></a>
+				</div>
+			</div>
+		</div><!-- Container end -->		
+		
 	</section><!-- Portfolio end -->
 	
 	<section id="team" class="team">

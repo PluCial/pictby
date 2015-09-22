@@ -25,7 +25,15 @@ public class AppRouter extends RouterImpl {
         addRouting(
                 "/kwsb",
                 "/kwsb");
-
+        
+        // 新着アイテムリスト
+        addRouting(
+            "/nitem",
+            "/newItem");
+        addRouting(
+            "/nitmn",
+            "/newItemNext");
+        
         addRouting(
                 "/user/userTags/{userId}/{token}",
                 "/user/secure/userTags?userId={userId}");
